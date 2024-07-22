@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Embeddable
 @Getter
 @NoArgsConstructor
@@ -27,5 +29,26 @@ public class Endereco {
         this.complemento = endereco.complemento();
         this.cidade = endereco.cidade();
         this.uf = endereco.uf();
+    }
+
+    public void atualizarInformacoes(DadosEndereco dados) {
+        if (Objects.nonNull(dados.logradouro())) {
+            this.logradouro = dados.logradouro();
+        }
+        if (Objects.nonNull(dados.bairro())) {
+            this.bairro = dados.bairro();
+        }
+        if (Objects.nonNull(dados.cep())) {
+            this.cep = dados.cep();
+        }
+        if (Objects.nonNull(dados.complemento())) {
+            this.complemento = dados.complemento();
+        }
+        if (Objects.nonNull(dados.cidade())) {
+            this.cidade = dados.cidade();
+        }
+        if (Objects.nonNull(dados.uf())) {
+            this.uf = dados.uf();
+        }
     }
 }
