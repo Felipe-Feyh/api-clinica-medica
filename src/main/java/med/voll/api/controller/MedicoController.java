@@ -2,10 +2,7 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.medico.DadosCadastroMedico;
-import med.voll.api.medico.DadosListagemMedico;
-import med.voll.api.medico.Medico;
-import med.voll.api.medico.MedicoRepository;
+import med.voll.api.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,21 +22,25 @@ public class MedicoController {
        repository.save(new Medico(dados));
     }
 
-    /* o pageable implementa a paginação
-    exemplos de parametros de paginação
-    size=1&page=1&sort=nome&desc
-    */
+    // o pageable implementa a paginação. Exemplos de parametros de paginação: size=1&page=1&sort=nome&desc
 
     // @PageableDefault(size = 10, sort = "nome" é default, se for passado um valor diferente do default, o valor passado será o valor default)
     @GetMapping
     public Page<DadosListagemMedico> listar(@PageableDefault(size = 10, sort = "nome") Pageable paginacao) {
-        return repository.findAll(paginacao).map(DadosListagemMedico::new);
+        return repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedico::new);
     }
 
-    @GetMapping
-    @RequestMapping("/findbyid/{id}")
-    public DadosListagemMedico buscarPorId(@PathVariable Long id) {
-        Medico medico = repository.getReferenceById(id);
-        return new DadosListagemMedico(medico);
+    @PutMapping
+    @Transactional // com a anotação será feito o update sozinho
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
+        var medico = repository.getReferenceById(dados.id());
+        medico.atualizarInformacoes(dados);
+    }
+
+    //@PathVariable é utilizado para "avisar" para pegar o parâmetro vindo da url
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+        medico.excluir();
     }
 }
