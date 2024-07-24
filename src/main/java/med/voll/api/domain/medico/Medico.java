@@ -1,16 +1,13 @@
-package med.voll.api.medico;
+package med.voll.api.domain.medico;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.endereco.Endereco;
-import org.hibernate.type.descriptor.java.ObjectJavaType;
+import med.voll.api.domain.endereco.Endereco;
 
 import java.util.Objects;
-
-import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 
 @Table(name="medicos")
