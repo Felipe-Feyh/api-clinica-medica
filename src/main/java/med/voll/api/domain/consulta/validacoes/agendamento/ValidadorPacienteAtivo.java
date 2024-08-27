@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta.validacoes;
+package med.voll.api.domain.consulta.validacoes.agendamento;
 
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
@@ -13,7 +13,7 @@ public class ValidadorPacienteAtivo implements ValidadorAgendamentoDeConsulta {
     private PacienteRepository repository;
 
     public void validar(DadosAgendamentoConsulta dados) {
-        var pacienteAtivo = repository.findAtivoById(dados.idPaciente());
+        var pacienteAtivo = repository.existsById(dados.idPaciente());
 
         if (!pacienteAtivo) {
             throw new ValidacaoException("Consulta não pode ser agendada com o paciente inativo");
